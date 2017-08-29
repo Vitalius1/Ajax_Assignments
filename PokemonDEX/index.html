@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+
+            for (var i = 1; i <= 151; i++) {
+                $('#pokemon').append("<img id='" + i + "' src='http://pokeapi.co/media/img/" + i + ".png'>");
+            }
+
+            $('img').click(function () {
+                var pok = $(this).attr('id');
+                $.get("http://pokeapi.co/api/v1/pokemon/" + pok + "/", function (res) {
+                    var html_str = "";
+                    html_str += `<h1>` + res.name + `</h1>
+                                <img src='http://pokeapi.co/media/img/` + pok + `.png'>
+                                <h4>Types</h4><ul>`;
+                    for (var j = 0; j < res.types.length; j++) {
+                        html_str += `<li> ${res.types[j].name}  </li>`;
+                    }
+                    html_str += `</ul>
+                                <h4>Height</h4>`
+                        + res.height +
+                        `<h4>Weight</h4>`
+                        + res.weight;
+                    $('#pokedex').html(html_str);
+                    console.log(html_str);
+                }, 'json');
+            })
+
+
+            // $.get("http://pokeapi.co/api/v1/pokemon/4/", function(res) {
+            //         console.log(res);
+            //     }, "json");
+
+
+
+        });
+    </script>
+    <style>
+        body {
+            background: linear-gradient(to right, #4da0b0, #d39d38);
+        }
+
+        #wrapper {
+            width: 1000px;
+            height: auto;
+            margin: 10px auto;
+        }
+
+        #pokemon {
+            width: 75%;
+            padding: 5px;
+            display: inline-block;
+            background: linear-gradient(to right, #dae2f8, #d6a4a4);
+        }
+
+        #pokedex {
+            width: 15.5%;
+            display: inline-block;
+            border: 10px solid red;
+            vertical-align: top;
+            padding: 5px;
+            height: 500px;
+            position: fixed;
+        }
+
+        img {}
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="pokemon">
+
+        </div>
+        <div id="pokedex">
+            <!--<h1>Pikachu</h1>-->
+        </div>
+    </div>
+</body>
+
+</html>
